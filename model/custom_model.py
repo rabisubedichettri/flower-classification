@@ -20,7 +20,6 @@ class AccuracyCallbacks(tf.keras.callbacks.Callback):
 
 class BridNet(BaseModel):
     def __init__(self, config):
-        os.environ['CUDA_VISIBLE_DEVICES'] = '-1'
         super().__init__(config)
         self.BASE_DIRECTORY=get_base_dic()
 
