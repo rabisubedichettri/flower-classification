@@ -17,11 +17,11 @@
             "nesterov": false
         },
         "minimum_accuracy": 0.99,
-        "model_save_when_accurracy": 0.75
+        "model_save_when_accurracy":  0.000035
     },
     "train": {
         "batch_size": 45,
-        "location": "./dataset/train",
+        "location": "./dataset/valid",
         "image_augment": {
             "rescale": 255,
             "rotation_range": 20,
@@ -50,14 +50,27 @@
         "checkpoint": {    
             "dir_name": "checkpoints",
             "save": "mycheckpoint"
+        },
+        "model":{
+            "dir_name":"model",
+            "save":"mymodel"
         }
     },
     "other": {
         "saved_model_loc": "sd",
         "checkpoint_loc": "sdd"
     },
-    "GPU": {
-        "name": "ee",
-        "workers": 4
+    "hardware": {
+        "GPU":{
+            "active":false,
+            "name": "ee",
+            "workers": 4
+        },
+        "CPU":{
+            "active":true,
+            "workers":4
+        }
+       
+      
     }
 }

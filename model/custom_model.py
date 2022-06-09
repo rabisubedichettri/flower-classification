@@ -1,26 +1,43 @@
+import os
+from utils.config_loader import load_config,get_base_dic
 import tensorflow as tf
 from tensorflow.keras.preprocessing.image import ImageDataGenerator
 from tensorflow.keras.layers import Flatten,Dense,Dropout
-from tensorflow.keras import Model
-import os
+from tensorflow.keras import Model 
 
 
-from utils.config_loader import load_config,get_base_dic
 from model.base_model import BaseModel
 
 
 class AccuracyCallbacks(tf.keras.callbacks.Callback):
+    def __init__(self,config):
+        super().__init__(self)
+        self.config=config
+
     def on_epoch_end(self, epoch,logs ={}):
-        minimum_accuracy=self.config["custom_network"]["minimum_accuracy"]
+        minimum_accuracy=self.config["custom_network"]["model_save_when_accurracy"]
         currnet_accuracy=logs.get('accuracy')
-        if(currnet_accuracy > minimum_accuracy): 
+        if(currnet_accuracy < minimum_accuracy): 
             print(f'\n {currnet_accuracy}% acc reached')
             self.model.stop_training = True
+
+            # save the model if accuracy has been achived.
+            saved_data=self.config["saved_data"]
+            saved_dir=os.path.join(get_base_dic(),saved_data["dir_name"])
+            if not os.path.exists(saved_dir):
+                os.mkdir(saved_dir)
+            cp_dir_r=os.path.join(saved_dir,saved_data["models"]["dir_name"])
+            if not os.path.exists(cp_dir_r):
+                os.mkdir(cp_dir_r)
+            model_loc=os.path.join(saved_dir,saved_data["save"])
+            self.model.save(model_loc)
         
+
 
 class BridNet(BaseModel):
     def __init__(self, config):
         super().__init__(config)
+          
         self.BASE_DIRECTORY=get_base_dic()
 
     def _preprocess(self):
@@ -37,7 +54,7 @@ class BridNet(BaseModel):
         
     
     def data_loader(self):
-        target_size = (244, 244)
+        target_size = (self.config["base_network"]["input_image_width"], self.config["base_network"]["input_image_height"])
         self.train_generator = self.train_datagen.flow_from_directory(
             self.config["train"]["location"],
             target_size=target_size,
@@ -68,29 +85,28 @@ class BridNet(BaseModel):
         self.model.compile(optimizer = 'adam',loss = 'categorical_crossentropy', metrics=['accuracy'])
     
     def fit(self):
-        # saved_model=self.config["saved_data"]
-        # savedm_dir=os.path.join(get_base_dic(),saved_model["dir_name"])
-        # if not os.path.exists(savedm_dir):
-        #     os.mkdir(savedm_dir)
-        # cp_dir_r=os.path.join(savedm_dir,saved_model["checkpoint"]["dir_name"])
-        # if not os.path.exists(cp_dir_r):
-        #     os.mkdir(cp_dir_r)
-        # checkpoint_path = os.path.join(cp_dir_r,f'{saved_model["checkpoint"]["save"]}/cp.ckpt')
+        saved_data=self.config["saved_data"]
+        savedm_dir=os.path.join(get_base_dic(),saved_data["dir_name"])
+        if not os.path.exists(savedm_dir):
+            os.mkdir(savedm_dir)
+        cp_dir_r=os.path.join(savedm_dir,saved_data["checkpoint"]["dir_name"])
+        if not os.path.exists(cp_dir_r):
+            os.mkdir(cp_dir_r)
+        checkpoint_path = os.path.join(cp_dir_r,f'{saved_data["checkpoint"]["save"]}/cp.ckpt')
         
 
-        # # Create a callback that saves the model's weights
-        # cp_callback = tf.keras.callbacks.ModelCheckpoint(filepath=checkpoint_path,
-        #                                          save_weights_only=True,
-        #                                          verbose=1)
+        # Create a callback that saves the model's weights
+        cp_callback = tf.keras.callbacks.ModelCheckpoint(filepath=checkpoint_path,
+                                                 save_weights_only=True,
+                                                 verbose=1)
         
         self.model.fit(
             self.train_generator,
             epochs = self.config["custom_network"]["epochs"],
             validation_data=self.valid_generator, 
-            # batch_size=4
-            
+            callbacks=[cp_callback,AccuracyCallbacks(self.config)]
         )
-        pass
+        
 
 
 
