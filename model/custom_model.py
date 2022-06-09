@@ -4,7 +4,6 @@ import tensorflow as tf
 from tensorflow.keras.preprocessing.image import ImageDataGenerator
 from tensorflow.keras.layers import Flatten,Dense,Dropout
 from tensorflow.keras import Model 
-from network.
 
 from model.base_model import BaseModel
 
