@@ -1,0 +1,63 @@
+{
+    "base_network": {
+        "input_image_width": 244,
+        "input_image_height": 244,
+        "input_image_channel": 3,
+        "weight": "imagenet",
+        "include_top": false
+    },
+    "custom_network": {
+        "total_class": 400,
+        "epochs": 1,
+        "optimizer": {
+            "inital_lrate": 0.01,
+            "drop": 0.96,
+            "epoch_drop": 8,
+            "momentum": 0.9,
+            "nesterov": false
+        },
+        "minimum_accuracy": 0.99,
+        "model_save_when_accurracy": 0.75
+    },
+    "train": {
+        "batch_size": 45,
+        "location": "./dataset/train",
+        "image_augment": {
+            "rescale": 255,
+            "rotation_range": 20,
+            "width_shift_range": 0.1,
+            "height_shift_range": 0.1,
+            "horizontal_flip": true,
+            "vertical_flip": true
+        }
+    },
+    "test": {
+        "batch_size": 1,
+        "location": "./dataset/test",
+        "image_augment": {
+            "rescale": 255
+        }
+    },
+    "val": {
+        "batch_size": 45,
+        "location": "dataset/valid",
+        "image_augment": {
+            "rescale": 255
+        }
+    },
+    "saved_data": {
+        "dir_name":"saved_data",
+        "checkpoint": {    
+            "dir_name": "checkpoints",
+            "save": "mycheckpoint"
+        }
+    },
+    "other": {
+        "saved_model_loc": "sd",
+        "checkpoint_loc": "sdd"
+    },
+    "GPU": {
+        "name": "ee",
+        "workers": 4
+    }
+}
