@@ -1,5 +1,4 @@
 import tensorflow as tf
-from tensorflow.keras.applications.inception_v3 import InceptionV3
 from tensorflow.keras.preprocessing.image import ImageDataGenerator
 from tensorflow.keras.layers import Flatten,Dense,Dropout
 from tensorflow.keras import Model
@@ -23,7 +22,6 @@ class BridNet(BaseModel):
     def __init__(self, config):
         os.environ['CUDA_VISIBLE_DEVICES'] = '-1'
         super().__init__(config)
-        self.build()
         self.BASE_DIRECTORY=get_base_dic()
 
     def _preprocess(self):
@@ -68,7 +66,7 @@ class BridNet(BaseModel):
         print("build model successfully")
 
     def compile(self):
-        self.model.compile(optimizer = 'adam',loss = 'sparse_categorical_crossentropy', metrics=['sparse_categorical_accuracy'])
+        self.model.compile(optimizer = 'adam',loss = 'categorical_crossentropy', metrics=['accuracy'])
     
     def fit(self):
         # saved_model=self.config["saved_data"]
@@ -85,12 +83,15 @@ class BridNet(BaseModel):
         # cp_callback = tf.keras.callbacks.ModelCheckpoint(filepath=checkpoint_path,
         #                                          save_weights_only=True,
         #                                          verbose=1)
+        
         self.model.fit(
             self.train_generator,
             epochs = self.config["custom_network"]["epochs"],
-            validation_data=self.valid_datagen, 
-            callbacks=[AccuracyCallbacks()]
+            validation_data=self.valid_generator, 
+            # batch_size=4
+            
         )
+        pass
 
 
 
