@@ -62,6 +62,3 @@ class LoggerW:
         self.logger.critical(message)
 
         
-
-obj=LoggerW(to="train").write_debug(message="critical_error")
-        

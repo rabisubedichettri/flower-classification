@@ -3,10 +3,6 @@ from tensorflow.keras.applications.inception_v3 import InceptionV3
 
 class BaseModel:
     def __init__(self,config):
-        gpus=tf.config.list_physical_devices(device_type="GPU")
-        for gpu in gpus:
-            tf.config.experimenatal._set_memory_growth(devic=gpu,enable=True)
-
         self.config=config
         base_network=self.config["base_network"]
         self.input_shape=(base_network["input_image_height"],base_network["input_image_width"],base_network["input_image_channel"])
