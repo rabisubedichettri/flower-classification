@@ -5,7 +5,7 @@ from tensorflow.keras.applications.inception_v3 import InceptionV3
 
 class BaseModel:
     def __init__(self,config):
-        config_loc=os.path.join(get_base_dic(),"configs","network.json")
+       
         self.config=load_config(config_loc)
         base_network=self.config["base_network"]
         self.input_shape=(base_network["input_image_height"],base_network["input_image_width"],base_network["input_image_channel"])

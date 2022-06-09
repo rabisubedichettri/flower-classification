@@ -14,14 +14,16 @@ class AccuracyCallbacks(tf.keras.callbacks.Callback):
     #     super().__init__(self)
 
     def on_epoch_end(self, epoch,logs ={}):
-        minimum_accuracy=self.config["custom_network"]["model_save_when_accurracy"]
+        config_loc=os.path.join(get_base_dic(),"configs","network.json")
+        config=load_config(config_loc)
+        minimum_accuracy=config["custom_network"]["model_save_when_accurracy"]
         currnet_accuracy=logs.get('accuracy')
         if(currnet_accuracy < minimum_accuracy): 
             print(f'\n {currnet_accuracy}% acc reached')
             self.model.stop_training = True
 
             # save the model if accuracy has been achived.
-            saved_data=self.config["saved_data"]
+            saved_data=config["saved_data"]
             saved_dir=os.path.join(get_base_dic(),saved_data["dir_name"])
             if not os.path.exists(saved_dir):
                 os.mkdir(saved_dir)
