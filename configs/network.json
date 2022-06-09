@@ -8,6 +8,7 @@
     },
     "custom_network": {
         "total_class": 400,
+        "label_file":"dataset/label.txt",
         "epochs": 1,
         "optimizer": {
             "inital_lrate": 0.01,
@@ -17,7 +18,7 @@
             "nesterov": false
         },
         "minimum_accuracy": 0.99,
-        "model_save_when_accurracy":  0.000035
+        "model_save_when_accurracy": 0.000035
     },
     "train": {
         "batch_size": 45,
@@ -46,14 +47,14 @@
         }
     },
     "saved_data": {
-        "dir_name":"saved_data",
-        "checkpoint": {    
+        "dir_name": "saved_data",
+        "checkpoint": {
             "dir_name": "checkpoints",
             "save": "mycheckpoint"
         },
-        "model":{
-            "dir_name":"model",
-            "save":"mymodel"
+        "model": {
+            "dir_name": "model",
+            "save": "mymodel"
         }
     },
     "other": {
@@ -61,16 +62,18 @@
         "checkpoint_loc": "sdd"
     },
     "hardware": {
-        "GPU":{
-            "active":false,
+        "GPU": {
+            "active": false,
             "name": "ee",
             "workers": 4
         },
-        "CPU":{
-            "active":true,
-            "workers":4
+        "CPU": {
+            "active": true,
+            "workers": 4
         }
-       
-      
+    },
+    "activity": {
+        "new_model": true,
+        "resume_model": false
     }
 }
