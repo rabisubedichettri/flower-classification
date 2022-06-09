@@ -4,15 +4,14 @@ import tensorflow as tf
 from tensorflow.keras.preprocessing.image import ImageDataGenerator
 from tensorflow.keras.layers import Flatten,Dense,Dropout
 from tensorflow.keras import Model 
-
+from network.
 
 from model.base_model import BaseModel
 
 
 class AccuracyCallbacks(tf.keras.callbacks.Callback):
-    def __init__(self,config):
-        super().__init__(self)
-        self.config=config
+    # def __init__(self):
+    #     super().__init__(self)
 
     def on_epoch_end(self, epoch,logs ={}):
         minimum_accuracy=self.config["custom_network"]["model_save_when_accurracy"]
