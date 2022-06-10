@@ -38,7 +38,7 @@ class AccuracyCallbacks(tf.keras.callbacks.Callback):
         
 
 
-class BridNet(BaseModel):
+class BirdNet(BaseModel):
     def __init__(self, config):
         super().__init__(config)
         self.BASE_DIR=get_base_dic()

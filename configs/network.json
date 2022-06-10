@@ -9,7 +9,7 @@
     "custom_network": {
         "total_class": 400,
         "label_file":"dataset/label.txt",
-        "epochs": 1,
+        "epochs": 10,
         "optimizer": {
             "inital_lrate": 0.01,
             "drop": 0.96,
@@ -17,12 +17,12 @@
             "momentum": 0.9,
             "nesterov": false
         },
-        "minimum_accuracy": 0.99,
-        "model_save_when_accurracy": 0.000035
+        "minimum_accuracy": 0.65,
+        "model_save_when_accurracy":0.65 
     },
     "train": {
         "batch_size": 45,
-        "location": "./dataset/valid",
+        "location": "./dataset/train",
         "image_augment": {
             "rescale": 255,
             "rotation_range": 20,
@@ -33,14 +33,14 @@
         }
     },
     "test": {
-        "batch_size": 1,
+        "batch_size": 10,
         "location": "./dataset/test",
         "image_augment": {
             "rescale": 255
         }
     },
     "val": {
-        "batch_size": 45,
+        "batch_size": 5,
         "location": "dataset/valid",
         "image_augment": {
             "rescale": 255
