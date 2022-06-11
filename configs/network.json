@@ -54,7 +54,7 @@
         },
         "model": {
             "dir_name": "model",
-            "save": "mymodel"
+            "save": "mymodel.h5"
         }
     },
     "other": {
